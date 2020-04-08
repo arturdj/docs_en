@@ -127,10 +127,10 @@ O módulo de Edge Firewall conta com dois tipos de permissões de times para ser
 - View / Edit Edge Firewall
 - View / Edit Network List
 
-Cada permissão tem a função de *View* ou *Edit*, isso significa que o usuário pode visualizar ou editar uma funcionalidade ou módulo
+Cada permissão tem a função de *View* ou *Edit*, isso significa que o usuário pode visualizar ou editar uma configuração no respectivo  módulo
 
 Como configurar as permissões de Edge Firewall:
-1. Acesse o [Real-Time Manager](https://manager.azion.com/)  e entre no menu ***Your Account*** na seção superior direita do Topo.
+1. Com uma conta com privilégios de administrador, acesse o [Real-Time Manager](https://manager.azion.com/)  e entre no menu ***Your Account*** na seção superior direita do Topo.
 2. Selecione o menu ***Teams***.
 3. Edite ou Adicione um ***Team***.
 4. Confirme as permissões de **View/Edit Edge Firewall** ou **View/Edit Network List**.
