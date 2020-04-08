@@ -17,6 +17,14 @@ Este módulo possibilita a criação de filtros por endereços de IP ou por paí
 
 Atuando nas camadas 3 e 4 do modelo ***OSI***, o ***Network Layer Protection*** é uma ferramenta poderosa que consiste em uma opção segura e eficiente de proteger seu negócio contra ataques e acessos de usuários indesejados. 
 
+Ao ser ativado no Edge Firewall Rule Set, o módulo Network Layer Protection permite o uso de:
+
+#### **Network Lists**
+
+**Rules Engine Criterias**: Hostname, Network, Request URI e Scheme.
+
+**Rules Engine Behaviors**: Deny, Drop e Set Rate Limit.
+
 ---
 
 ## 2. Network Lists {#network-lists}
