@@ -1,125 +1,152 @@
 # Edge **Firewall**
 
-O Azion Edge Firewall permite a criação de regras de controle de acesso ao seu conteúdo diretamente nos Edges, evitando que requisições indesejadas cheguem a sua origem ou que tenham acesso às suas aplicações.
+O Azion Edge Firewall oferece uma gama de funcionalidades para proteger sua aplicação, desde filtros de endereços IP até complexas regras para tratamento de requisições no nível de aplicação. Ele permite a criação de regras de controle de acesso ao seu conteúdo que são processadas diretamente nos Azion Edge Nodes, mais perto dos usuários, evitando que requisições indesejadas cheguem a sua origem ou que tenham acesso às suas aplicações.
 
-Você poderá criar _whitelists_ ou _blacklists_ por país de acesso do usuário (_geo blocking_) ou por endereço IP, para evitar que seu conteúdo ou aplicações web sejam acessados de determinados locais.
+O Edge Firewall permite construir uma *firewall* programável para proteger as camadas de rede e aplicação, de forma personalizada. Com essa solução sua empresa pode: 
 
-Também poderá ativar outros controles de acesso, como o bloqueio baseado no HTTP Referrer, isto é, no domínio da página html que está requisitando determinado recurso. Assim você poderá evitar que vídeos, imagens, javascripts, css ou outros recursos do seu site sejam requisitados por domínios diferentes dos seus próprios.
+- Criar *whitelists*, *blacklists* e *greylists* com base na rede ou localização do usuário; 
+- Proteger suas aplicações da rede *Tor*; 
+- Limitar a taxa de acessos à aplicação para evitar ataques de *brute force*; 
+- Mitigar ataques de negação de serviço (*DDoS*); 
+- Proteger aplicações de ameaças *OWASP* Top 10 com o módulo de WAF;
+- Adicionar seu código fonte de proteção, para ser executado no Edge Firewall;
+- Portar bibliotecas de terceiros para processar no Edge Firewall, por exemplo, soluções líderes de mercado contra *credential stuffing*, *account takeover attempts*, *price* and *contact scraping*, etc.
 
-Ou poderá ativar a funcionalidade de Secure Token e gerar URLs seguras para determinados recursos de seu site, com tempo de validade da URL e secret, controlando, dessa forma, o compartilhamento de URLs de recursos por seus usuários.
-
-> 1. [Referrer Blocking](#referrer-blocking)
-> 2. [Geo Blocking](#geo-blocking)
-> 3. [Secure Token](#secure-token)
-> 4. [IP Blocking](#ip-blocking)
-> 5. [Origin Shield](#origin-shield)
-> 6. [Como configurar o Edge Firewall](#como-configurar-o-edge-firewall)
-> 7. [Como o Edge Firewall é tarifado](#como-o-edge-firewall-e-tarifado)
-
----
-
-## 1. Referrer Blocking {#referrer-blocking}
-
-Referer é um cabeçalho do protocolo HTTP, originalmente especificado com erro de grafia para a palavra inglesa Referrer, que identifica o endereço da página web com o link para o recurso que está sendo requisitado.
-
-Você pode ativar o bloqueio por Referrer para que determinados recursos de seu site, tais como imagens, vídeos, javascripts, css ou outros recursos, sejam acessíveis somente quando o cabeçalho HTTP Referer identificar o endereço de algum dos domínios aceitos. Isso evitará que uma página externa, que não esteja listada como _Accepted Domains_, requisite os recursos de seu site.
-
-O bloqueio de acesso a determinado recurso resultará em uma mensagem 403 Forbidden.
-
-
-| Campo | Definição |
-|-------|-----------|
-| Block Access by Referer | Assinale esse campo para ativar essa modalidade de controle. O recurso solicitado será entregue somente se o cabeçalho Referer da requisição identificar um dos domínios especificados no campo _Accepted Domains_. |
-| Allow Blank Referer | Assinale esse campo se desejar permitir a entrega do recurso quando o cabeçalho Referer estiver ausente. Ao marcar essa opção, você estará permitindo que o objeto seja acessado, por exemplo, preenchendo-se a URL do recurso diretamente na barra de endereço do browser, situação em que não há uma página web de Referrer com o link para o recurso. |
-| Accepted Domains | Adicione os domínios aceitos como Referrer das requisições. Você pode adicionar até 10 domínios. Se necessário, poderá ser utilizado Wildcard Domains, por exemplo, _*.seudominio.com_. Para adicionar mais de um dominio, clique em Add Domain.  Para remover um domínio da listagem, clique no botão [-] correspondente ao domínio desejado. |
+> 1. *Como Funciona?*
+> 2. *Edge Firewall Modules*
+> 3. *Hands On*
+> 4. *Permissões*
+> 5. *Documentação de Suporte*
 
 ---
 
-## 2. Geo Blocking {#geo-blocking}
+## 1. Como Funciona?
 
-A Azion utiliza um serviço de identificação de países, a partir do endereço IP de seu usuário, com 99,8% de precisão.
+Através dos módulos disponíveis, crie *whitelists*, *blacklists* ou *graylists* por país de acesso do usuário (*geo* *blocking*), ASN ou endereços IP, para evitar que seu conteúdo ou aplicações *web* sejam acessados de determinados locais. Se preferir, defina que somente os IPs da Azion acessem seus servidores de origem, concentrando o acesso externos em nossos Edges.
 
-Por meio da funcionalidade de Geo Blocking, você pode configurar regras de controle de acesso a seu conteúdo ou aplicações web, com base no país identificado.
+Implemente regras inteligentes para prevenir diversos tipos de ataques. Através do **Rules Engine**, é possível parametrizar comportamentos específicos para responder a comportamentos maliciosos e proteger suas aplicações.
 
-Utilize essa funcionalidade para controlar a entrega de seu conteúdo somente para os países em que seu negócio esteja presente, ou somente para os países que você tenha direito de distribuição de determinado conteúdo. Você também pode utilizar essa funcionalidade para filtrar ataques de determinados países.
-
-O bloqueio de acesso a seu conteúdo resultará em uma mensagem _403 Forbidden_.
-
-| Campo | Definição |
-|-------|-----------|
-| Geo Block | É o campo utilizado para definir sua política de Geo Blocking. Selecione uma das opções que seguem:<br> _whitelist:_ seu conteúdo será entregue somente para os países adicionados no campo Country. Todos os demais acessos serão bloqueados.<br> _blacklist:_ seu conteúdo será entregue para todos os países, com exceção dos adicionados no campo Country.<br> _disabled:_ seu conteúdo será entregue para todos os países. |
-| Country | Adicicione a lista de países desejada. Para adicionar mais de um país, clique em Add Country.<br> Para remover um país da lista, clique no botão [-] correspondente ao país desejado. |
 
 ---
 
-## 3. Secure Token {#secure-token}
+## 2. Edge Firewall Modules
 
-O Secure Token é utilizado para proteger uma URL de compartilhamentos indesejados entre usuários. Você pode utilizar esse recurso para coibir o compartilhamento de URL de seu conteúdo fechado ou personalizado, tais como vídeos, aulas, imagens, dentre outros, definindo um período de validade para que o acesso seja realizado.
+O Azion Edge Firewall possui os seguintes módulos para que você possa construir *web applications* de alta performance, escalabilidade e segurança, com muito mais simplicidade e livre de tarefas operacionais. Consulte as documentações de cada produto:|
 
-Sua aplicação deverá implementar a lógica de geração do Secure Token para as URLs que desejar proteger. Cada URL protegida só será entregue pela Azion se apresentar um Token válido. O Token representa um hash da URL do conteúdo sendo requistado, contendo um período de validade do próprio token e uma Secret. Caso o Token esteja expirado, a Secret não esteja correta ou o Token não seja válido para a URL solicitada, o acesso ao conteúdo será bloqueado com _403 Forbidden_.
+### [DDoS](https://www.azion.com/pt-br/docs/produtos/ddos-protection/) 
 
-Jamais implemente a geração do Secure Token _client-side_, isto é, via javascript no próprio browser do usuário, pois isso colocaria em risco o sigilo de sua Secret. A geração do Secure Token deve ser implementada _server-side_, em sua aplicação.
+O módulo de DDoS Protection protege seu conteúdo e aplicações contra ataques do tipo *Distributed Denial of Service* (*DDoS*).
+Por meio de uma moderna abordagem de detecção e mitigação de ataques das camadas de rede, transporte e aplicação, reduzimos o downtime sem impactar na performance de seu serviço.
 
-Veja exemplos de códigos de geração de Secure Token no Github para mais referências: [https://github.com/aziontech/secure_token](https://github.com/aziontech/secure_token).
+---
+### [Edge Functions](https://www.azion.com/pt-br/docs/produtos/edge-functions)
 
-| Campo | Definição |
-|-------|-----------|
-| Require Secure Token | Esse campo permite ativar o controle de acesso por Secure Token. Caso ativado, o conteúdo só será entregue se apresentar um Token dentro do prazo de validade, com a secret correta e válido para a URL que está sendo acessada. |
-| Secret | Esse campo é utilizado para definição de uma Secret de conhecimento apenas da Azion e de sua aplicação responsável por gerar os tokens.<br><br>Cuidado: ao alterar a Secret no Real-Time Manager e em sua aplicação, todos os tokens gerados anteriormente por usa aplicação, com a Secret antiga, serão considerados inválidos. |
+Edge Functions são componentes da plataforma Edge Computing da Azion, que permitem a implementação de funções serverless em suas aplicações, desonerando sua infraestrutura, executando funções mais próximo do usuário, garantindo a agilidade e a escalabilidade necessárias para atender seus objetivos de negócio.
+
+Você poderá se beneficiar de uma arquitetura baseada em micro serviços, criando facilmente funções que executam próximas aos usuários. 
+
+Aproveite as soluções de segurança de *third-party* para proteger seus dados sensíveis e aplicações contra ataques na borda da rede.
+
+---
+### [Network Layer Protection](https://www.azion.com/pt-br/docs/produtos/edge-firewall/network-layer-protection)
+
+Este módulo possibilita a criação de filtros por endereços de IP ou por países (*geolocation*), através da configuração de Network Lists e da definição de regras de negócio que validarão critérios de bloqueio ou de liberação, conforme a sua necessidade, especificados nas Rules Engine de seu Edge Firewall.
+
+Atuando nas camadas 3 e 4 do modelo *OSI*, o Network Layer Protection é uma ferramenta poderosa que consiste em uma opção segura e eficiente de proteger seu negócio contra ataques e acessos de usuários indesejados.
+
+####  **Add-on Origin Shield**
+
+Com este add-on do Azion Edge Firewall você poderá criar um perímetro de segurança para a sua infraestrutura de origem, seja ela um provedor de cloud, hosting ou mesmo o seu próprio datacenter. Com este serviço, sua origem poderá restringir o acesso apenas de endereços IP’s específicos da nossa rede e bloquear qualquer outro acesso a sua origem.
+
+---
+### [Web Application Firewall](https://www.azion.com/pt-br/docs/produtos/edge-firewall/web-application-firewall)
+Web Application Firewall (WAF) protege as suas aplicações contra ameaças como SQL Injections, Remote File Inclusion (RFI), Cross-Site Scripting (XSS) e muito mais. O WAF analisa as requisições HTTP e HTTPS, detecta e bloqueia ameaças antes que elas alcancem a sua infraestrutura e sem impactar na performance de suas aplicações. 
+
+---
+## 3. Hands On - Passo a passo para configurar o Edge Firewall
+
+Passo 1: Criando um novo Edge Firewall
+
+1. Acesse o [Real-Time Manager](https://manager.azion.com/)  e entre no menu **Edge Services > Edge Firewall**. Você visualizará a interface principal onde poderá criar e administrar suas rule sets de **Edge Firewall**;
+2. Para incluir uma nova rule set, clique no botão **Add Rule Set**;
+3. Preencha os campos que aparecerão, conforme abaixo:
+ 
+    Add Edge Firewall (Nome da sua rule set)
+
+    Atribua um nome sugestivo para seu Edge Application.
+    
+    **Domain Settings**
+
+    Dentro desta seção, selecione o(s) domínio(s) para os quais você deseja que sejam aplicadas essas configurações. No campo ***Domains***, uma lista com os seus domínios disponíveis será apresentada. Selecione os domínios na aba ***Available Domains*** e mova para aba ***Chosen Domains*** para vincular à rule set.
+
+    **Edge Firewall Modules**
+
+    Lista de módulos disponíveis para o Edge Firewall. Habilite os módulos que julgar necessário para poder ter acesso a funcionalidades específicas de cada um. Os módulos disponíveis são:
+
+    - Network Layer Protection
+    - Web Application Firewall
+    - Edge Functions
+4. Selecione o campo ***Active*** para ativar a rule set.
+5. Clique em ***Save*** para salvar.
+
+Passo 2: Criando regras de negócio através das ***Rules Engine***
+
+1. Selecione a aba ***Rules Engine***;
+2. Clique em ***New Rule*** para adicionar uma nova regra.
+3. Preencha os campos que aparecerão, conforme abaixo:
+    
+    **Rule Name(Nome da sua regra)**
+
+    Atribua um nome sugestivo para sua Rule Engine.
+
+    **Criteria**
+    
+    Parametrize sua Rule Engine com os critérios que vão definir a forma de atuação da sua regra.
+
+    - **IF**: Operador condicional. Selecione o atributo, selecione a condição e adicione o valor a ser testado.
+
+        Ex: *IF Request URI starts with /product*. Este condição testará toda requisição em que a URI começar com */product*.
+
+        Você pode aninhar mais de uma condição dentro de uma mesma Rule Engine, basta ir adicionando regras através dos operadores lógicos ***And*** e ***Or***.
+    
+    **Behavior**: Defina a ação a ser executada caso a requisição coincida com os critérios definidos. Selecione o atributo, e, se necessário, selecione a condição e adicione o valor de referência. Algumas Ações não necessitam de complemento, basta  selecioná-las para que seu comportamento seja definido, como, por exemplo, na ação **Deny (403 Forbidden)**, que irá retornar um erro 403.
+
+    - **Then**: Escolha uma das ações disponíveis (Podem variar de acordo com os módulos do Edge Firewall habilitados). Dependendo da opção selecionada outros campos complementares de preenchimento serão exibidos.
+        
+        Ex: *Then Set Rate Limit, Average Rate Limit (req/s)* 2, *Client IP Address*, *Maximum burst size 10*. Neste exemplo, para a ação ***Set Rate Limit***, aparecerão os  campos adicionais ***Average Rate Limit (req/s)*** e ***Maximum burst size***, além da opção de seleção de restrição por endereço IP ou Global, ou seja, se a requisição satisfazer os critérios da *Rule*, então será definido um *rate limit* de 2 requisições por segundo, por endereço IP, com um limite de *burst* de 10 requisições.
+4. Selecione o campo ***Active*** para ativar a rule set.
+5. Clique em ***Save*** para salvar o Edge Firewall Rule Set
+
+---
+## 4. Permissions
+
+Como um cliente que possui **Real-Time Manager**, e possui o módulo de Edge Firewall, é possível realizar as configurações de permissões para o usuários e times. Essa configuração permite mais flexibilidade no momento de definição das funções e papéis dos usuários e times.
+
+O módulo de Edge Firewall conta com dois tipos de permissões de times para ser configurado:
+
+- View / Edit Edge Firewall
+- View / Edit Network List
+
+Cada permissão tem a função de *View* ou *Edit*, isso significa que o usuário pode visualizar ou editar uma funcionalidade ou módulo
+
+Como configurar as permissões de Edge Firewall:
+1. Acesse o [Real-Time Manager](https://manager.azion.com/)  e entre no menu ***Your Account*** na seção superior direita do Topo.
+2. Selecione o menu ***Teams***.
+3. Edite ou Adicione um ***Team***.
+4. Confirme as permissões de **View/Edit Edge Firewall** ou **View/Edit Network List**.
+5. Clique em ***Save*** para salvar a configuração.
 
 ---
 
-## 4. IP Blocking {#ip-blocking}
+## 5. Documentação de Suporte
 
-Você também pode utilizar o Azion Edge Firewall para controlar o acesso ao seu conteúdo baseado no endereço IP de seu usuário.
-
-Com essa funcionalidade você pode, por exemplo, liberar o acesso a determinadas configurações de teste (_stage_) somente para os IPs de sua rede corporativa, ou bloquear o acesso de um IP ou conjunto de IPs que estejam sendo responsáveis por algum ataque.
-
-Você pode utilizar a notação CIDR para definir máscaras de IPs.
-
-| Campo | Definição |
-|-------|-----------|
-| Default Policy | Esse campo define a política default do bloqueio por IPs:<br> _Allow from all:_ todos os endereços IPs estarão liberados por default e, se desejável, você listará apenas os IPs que deseja bloquear em uma _blacklist_.<br> _Deny from all:_ todos os endereços IPs estarão bloqueados por default e você deverá listar apenas os IPs para os quais deseja liberar o acesso em uma _whitelist_. |
-| IP Whitelist / IP Blacklist | Esse campo é utilizado em conjunto com a Default Policy. Inclua até 50 endereços IPs ou máscaras CIDR, um por linha, na listagem de exceção à política default.<br><br> Se a política default for Allow from all, a listagem será de IP Blacklist.<br><br> Se a política default for Deny from all, a listagem será de IP Whitelist. |
-
+- [DDoS](https://www.azion.com/pt-br/docs/produtos/ddos-protection/)
+- [Edge Functions](https://www.azion.com/pt-br/docs/produtos/edge-functions)
+- [Network Layer Protection](https://www.azion.com/pt-br/docs/produtos/edge-firewall/network-layer-protection)
+- [Web Application Firewall](https://www.azion.com/pt-br/docs/produtos/edge-firewall/web-application-firewall)
+- [Edge Firewall Rules Engine](https://www.azion.com/pt-br/docs/produtos/edge-firewall/rules-engine/)
+- [Network Lists](https://www.azion.com/pt-br/docs/produtos/edge-firewall/network-layer-protection/network-lists)
+- [WAF Rule Sets](https://www.azion.com/pt-br/docs/produtos/edge-firewall/web-application-firewall/waf-rule-sets)
 ---
 
-## 5. Origin Shield {#origin-shield}
-
-Com este add-on do Azion Edge Firewall você poderá criar um perímetro de segurança para a sua infraestrutura de origem, seja ela um provedor de cloud, hosting ou mesmo o seu próprio datacenter. Com este serviço, sua origem receberá acesso apenas de endereços IP’s específicos da nossa rede, e assim você poderá bloquear qualquer outro acesso a sua origem.
-
-Nossa lista de IP’s pode sofrer alterações de tempos em tempos, mas após atualiza-la só colocaremos os novos servidores em produção para quem utiliza o add-on Origin Shield 4 dias após a publicação da lista. Assim, sugerimos que você consulte de forma automatizada a nossa lista de IP’s e atualize os seus filtros de borda sempre que ela receber atualizações, para evitar indisponibilidade de serviço.
-
-Para garantir a segurança contra ataques realizados diretamente na sua origem, sugerimos o uso do Azion DDoS Protection com o add-on Infrastructure Protection, que irá garantir a proteção do seu ASN via BGP utilizando a rede distrbuida da Azion.
-
----
-
-## 6. Como configurar o Edge Firewall {#como-configurar-o-edge-firewall}
-
-Para configurar o Azion Edge Firewall:
-
-1.  Acesse o [Real-Time Manager](https://manager.azion.com/) e entre no menu Cloud Security > Edge Firewall.
-2.  Crie uma nova _rule set_ do Edge Firewall clicando no botão _Add_, ou edite uma existente.
-3.  Preencha um nome sugestivo para sua rule set, você irá precisar dele mais adiante.
-4.  Configure as opções de Referer Block, Geo Blocking, Secure Token e IP Blocking, conforme sua necessidade.
-5.  Se desejar, você pode desmarcar o checkbox _Active_, para criar uma configuração em espera (_standby_). Os bloqueios só serão executados se a _rule set_ estiver ativa.
-6.  Após salvar, acesse a aba Rules Engine para editar ou adicionar regras para um ou mais _paths_
-7.  Na seção Edge Firewall Settings, selecione o nome da _rule set_ que você deseja aplicar, definido no passo 3.
-
----
-
-## 7. Como o Edge Firewall é tarifado {#como-o-edge-firewall-e-tarifado}
-
-A cobrança do produto Azion Edge Firewall é baseada no número total de requisições recebidas pelo [Azion Content Delivery]({% tl documentation_products_content_delivery %}) para suas configurações que possuem o Edge Firewall ativado. A cobrança do Edge Firewall é adicional a cobrança do Content Delivery.
-
-Uma configuração de Content Delivery tem o Edge Firewall ativado se houver pelo menos uma _rule set_ de Edge Firewall ativa aplicada a pelo menos uma regra de Rules Engine.
-
-São contabilizadas tanto requisições HTTP quanto HTTPS, sem distinção de valor entre ambas.
-
-Para reduzir seu consumo, você pode deixar as _rule sets_ do Edge Firewall em espera (_standby_), desmarcando o _checkbox Active_. Caso a _rule set_ esteja desativada, nenhum bloqueio dessa _rule set_ será aplicado até que você ative-a marcando o _checkbox Active_.
-
----
-
-Didn't find what you were looking for? [Open a support ticket.](https://tickets.azion.com/)
-
-[Edit this page](https://github.com/aziontech/docs_en/edit/master/edge-firewall/index.md) on GitHub.
+Não encontrou o que procurava? [Abra um ticket.](https://tickets.azion.com/)
