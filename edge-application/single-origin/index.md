@@ -61,6 +61,12 @@ Google Cloud Storage™ supports buckets with local type single region (us-east1
 
 Secret Key is protected by being displayed only to its users with write permission and maintaining their access security.
 
+
+> :warning: **_Query Strings_ are not supported with HMAC enabled at this moment**
+>
+> If you still need to use query strings, please, contact us.
+
+
 _©2020 Google LLC All rights reserved. Google Cloud Storage is a trademark of Google LLC._
 
 
